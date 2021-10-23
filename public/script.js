@@ -70,7 +70,7 @@ const winner = (arr) => {
         "Nice!", "Spot On!", "*Plankton Voice*: Correct!", "Let's get it!!!", "Woooooooo!", "That's right!", "Swaaaag!", "Okay! I see you!"
     ]
     for(let square = 0; square < arr.length; square++){
-        arr[square].addEventListener("click", ()=>{
+        const winnerCB = () => {
             if(arr[square].style.backgroundColor === rgbHeader.innerText.toLowerCase()){
                 for(let squares = 0; squares < arr.length; squares++){
                     arr[squares].style.backgroundColor = arr[square].style.backgroundColor;
@@ -82,6 +82,11 @@ const winner = (arr) => {
                         event.target.style.boxShadow = "0px 15px 19px 2px rgb(120, 120, 120)";
                     })
                     arr[squares].addEventListener("click", ()=>{
+                        reset();
+                        playScore += 1;
+                        score.innerText = `${playScore}`;
+                    });
+                    arr[squares].addEventListener("touchstart", ()=>{
                         reset();
                         playScore += 1;
                         score.innerText = `${playScore}`;
@@ -98,7 +103,9 @@ const winner = (arr) => {
                     score.innerText = `${playScore}`;
                 }
             }
-        })
+        }
+        arr[square].addEventListener("click", winnerCB);
+        arr[square].addEventListener("touchstart", winnerCB);
     };
 }
 
@@ -117,6 +124,10 @@ const buttonListeners = () => {
     normal.addEventListener("click", loadNormalRgb);
     veteran.addEventListener("click", loadVeteranRgb);
     resetButton.addEventListener("click", reset);
+    easy.addEventListener("touchstart", loadEasyRgb);
+    normal.addEventListener("touchstart", loadNormalRgb);
+    veteran.addEventListener("touchstart", loadVeteranRgb);
+    resetButton.addEventListener("touchstart", reset);
 }
 
 buttonListeners();
